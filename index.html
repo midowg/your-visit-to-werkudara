@@ -17,6 +17,7 @@
   --on-blue: #FFFFFF;
   --scrim: rgba(43, 47, 54, 0.5);
   --placeholder: #7A7E84;
+  --rule: #B9B5AD;
   --alert: #9A2B1E;
   --font-display: 'LM Roman 17', 'Bodoni 72', Didot, 'Times New Roman', serif;
   --font-serif: 'LM Roman 12', 'Bodoni 72', Didot, 'Times New Roman', serif;
@@ -46,6 +47,12 @@ p { margin: 0; text-wrap: pretty; }
 .brand { display: flex; align-items: center; min-height: 44px; }
 .brand img { height: 30px; width: auto; }
 .menu-btn { min-height: 44px; padding: 0 0 0 16px; border: 0; background: none; color: var(--ink); cursor: pointer; font-family: var(--font-sans); font-weight: 500; font-size: 0.72rem; letter-spacing: 0.22em; }
+.bar-tools { display: flex; align-items: center; gap: 4px; }
+.lang { display: flex; align-items: center; }
+.lang-btn { min-width: 40px; min-height: 44px; padding: 0 6px; border: 0; background: none; cursor: pointer; color: var(--muted); font-family: var(--font-sans); font-weight: 500; font-size: 0.72rem; letter-spacing: 0.16em; }
+.lang-btn[aria-pressed="true"] { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
+.lang-sep { color: var(--rule); font-size: 0.72rem; }
+.map-note { max-width: var(--measure); margin-top: 2px; }
 .nav { display: none; position: absolute; left: 0; right: 0; top: 100%; background: var(--ground); border-bottom: 1px solid var(--line); padding: 10px var(--gutter) 30px; }
 .bar.open .nav { display: flex; flex-direction: column; }
 .nav a { padding: 11px 0; color: var(--ink); text-decoration: none; font-family: var(--font-serif); font-size: 1.5rem; line-height: 1.3; word-spacing: -0.07em; }
@@ -185,14 +192,14 @@ dialog.viewer[open] { display: flex; flex-direction: column; }
 .turn { margin-block: 0; }
 .turn figcaption { padding-inline: var(--gutter); margin-top: 6px; }
 @media (min-width: 900px) {
-  .nav, .bar.open .nav { gap: 16px; }
-  .nav a { letter-spacing: 0.1em; }
+  .nav, .bar.open .nav { gap: 11px; margin-left: auto; }
+  .nav a { letter-spacing: 0.03em; white-space: nowrap; }
   .sec > .media.turn { grid-column: 2; }
   .turn figcaption { padding-inline: 0; }
 }
 @media (min-width: 1100px) {
-  .nav, .bar.open .nav { gap: 30px; }
-  .nav a { letter-spacing: 0.18em; }
+  .nav, .bar.open .nav { gap: 22px; }
+  .nav a { letter-spacing: 0.15em; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -202,9 +209,8 @@ dialog.viewer[open] { display: flex; flex-direction: column; }
 
 <header class="bar" id="bar">
   <div class="bar-in">
-    <a class="brand" href="#welcome" data-nav aria-label="Kembali ke awal halaman"><img src="assets/logo.webp" alt="Werkudara" width="186" height="220"></a>
-    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav">MENU</button>
-    <nav class="nav" id="nav" aria-label="Bagian panduan">
+    <a class="brand" href="#welcome" data-nav aria-label="Kembali ke awal halaman" data-i18n-attr="aria-label:a.brand"><img src="assets/logo.webp" alt="Werkudara" width="186" height="220"></a>
+    <nav class="nav" id="nav" aria-label="Bagian panduan" data-i18n-attr="aria-label:a.nav">
       <a href="#welcome" data-nav>Welcome</a>
       <a href="#getting-here" data-nav>Getting Here</a>
       <a href="#what-to-expect" data-nav>What to Expect</a>
@@ -213,12 +219,20 @@ dialog.viewer[open] { display: flex; flex-direction: column; }
       <a href="#here-to-help" data-nav>Here to Help</a>
       <a href="#after-your-visit" data-nav>After Your Visit</a>
     </nav>
+    <div class="bar-tools">
+      <div class="lang" role="group" aria-label="Pilih bahasa" data-i18n-attr="aria-label:a.langGroup">
+        <button class="lang-btn" type="button" data-lang="id" lang="id" aria-pressed="true" aria-label="Bahasa Indonesia">ID</button>
+        <span class="lang-sep" aria-hidden="true">|</span>
+        <button class="lang-btn" type="button" data-lang="en" lang="en" aria-pressed="false" aria-label="English">EN</button>
+      </div>
+      <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav">MENU</button>
+    </div>
   </div>
 </header>
 
 <main>
   <section id="welcome" aria-labelledby="t-welcome">
-    <img class="hero-img" src="assets/exterior-1280.webp" srcset="assets/exterior-768.webp 768w, assets/exterior-1280.webp 1280w" sizes="100vw" width="1280" height="853" alt="Tampak depan Werkudara Office" fetchpriority="high" decoding="async">
+    <img class="hero-img" src="assets/exterior-1280.webp" srcset="assets/exterior-768.webp 768w, assets/exterior-1280.webp 1280w" sizes="100vw" width="1280" height="853" alt="Tampak depan Werkudara Office" data-i18n-attr="alt:a.heroAlt" fetchpriority="high" decoding="async">
     <div class="wrap sec first">
       <div class="head">
         <img class="mark" src="assets/logo.webp" alt="" width="186" height="220">
@@ -227,10 +241,10 @@ dialog.viewer[open] { display: flex; flex-direction: column; }
       </div>
       <div class="body">
         <p class="lead">Welcome to Werkudara.</p>
-        <p>Kami senang dapat menyambut kehadiran Anda.</p>
-        <p>Panduan singkat ini kami siapkan agar Anda lebih mudah menemukan lokasi, mengenal suasana kantor, dan mempersiapkan kunjungan dengan nyaman.</p>
+        <p data-i18n="welcome.p1">Kami senang dapat menyambut kehadiran Anda.</p>
+        <p data-i18n="welcome.p2">Panduan singkat ini kami siapkan agar Anda lebih mudah menemukan lokasi, mengenal suasana kantor, dan mempersiapkan kunjungan dengan nyaman.</p>
         <div class="details">
-          <div><p>Senin, 12 Oktober 2026</p><p>07.30 WIB</p></div>
+          <div><p data-i18n="welcome.date">Senin, 12 Oktober 2026</p><p data-i18n="welcome.time">07.30 WIB</p></div>
           <div><p>Werkudara Office</p><p>Yogyakarta</p></div>
         </div>
       </div>
@@ -249,7 +263,7 @@ dialog.viewer[open] { display: flex; flex-direction: column; }
           <p>Jl. Bhinneka No. 9<br>Condongcatur, Sleman, Yogyakarta</p>
         </div>
         <div>
-          <p class="label">AKSES YANG DISARANKAN</p>
+          <p class="label" data-i18n="gh.routeLabel">AKSES YANG DISARANKAN</p>
           <ol class="route">
             <li>Jalan Pondok Raya</li>
             <li>Jalan Bhinneka</li>
@@ -258,21 +272,24 @@ dialog.viewer[open] { display: flex; flex-direction: column; }
         </div>
       </div>
       <figure class="media turn bleed">
-        <button class="map-open" type="button" data-open-turn aria-label="Perbesar foto belokan">
-          <img src="assets/turn-800.webp" srcset="assets/turn-800.webp 800w, assets/turn-1400.webp 1400w" sizes="(min-width: 900px) 620px, 100vw" width="1400" height="846" alt="Belokan dari Jl. Pondok Raya ke Jl. Bhinneka menuju Werkudara Office, dengan Warmindo Harum di sisi kiri jalan" loading="lazy" decoding="async">
+        <button class="map-open" type="button" data-open-turn aria-label="Perbesar foto belokan" data-i18n-attr="aria-label:a.turnBtn">
+          <img src="assets/turn-800.webp" srcset="assets/turn-800.webp 800w, assets/turn-1400.webp 1400w" sizes="(min-width: 900px) 620px, 100vw" width="1400" height="846" alt="Belokan dari Jl. Pondok Raya ke Jl. Bhinneka menuju Werkudara Office, dengan Warmindo Harum di sisi kiri jalan" data-i18n-attr="alt:a.turnAlt" loading="lazy" decoding="async">
         </button>
-        <figcaption><button class="text-btn" type="button" data-open-turn>Perbesar foto</button></figcaption>
+        <figcaption><button class="text-btn" type="button" data-open-turn data-i18n="gh.turnBtn">Perbesar foto</button></figcaption>
       </figure>
       <figure class="media map bleed">
-        <button class="map-open" type="button" data-open-map aria-label="Perbesar peta akses">
-          <img src="assets/map-820.webp" srcset="assets/map-820.webp 820w, assets/map-1601.webp 1601w" sizes="(min-width: 1208px) 1128px, 100vw" width="1601" height="982" alt="Peta rute menuju Werkudara Office: lurus di Jl. Pondok Raya, lalu masuk ke Jl. Bhinneka. Rute melalui Jl. Gurameh Raya dan Jl. Tengiri Raya tidak disarankan." loading="lazy" decoding="async">
+        <button class="map-open" type="button" data-open-map aria-label="Perbesar peta akses" data-i18n-attr="aria-label:a.mapBtn">
+          <img src="assets/map-820.webp" srcset="assets/map-820.webp 820w, assets/map-1601.webp 1601w" sizes="(min-width: 1208px) 1128px, 100vw" width="1601" height="982" alt="Peta rute menuju Werkudara Office: lurus di Jl. Pondok Raya, lalu masuk ke Jl. Bhinneka. Rute melalui Jl. Gurameh Raya dan Jl. Tengiri Raya tidak disarankan." data-i18n-attr="alt:a.mapAlt" loading="lazy" decoding="async">
         </button>
-        <figcaption><button class="text-btn" type="button" data-open-map>Perbesar peta</button></figcaption>
+        <figcaption>
+          <button class="text-btn" type="button" data-open-map data-i18n="gh.mapBtn">Perbesar peta</button>
+          <p class="hint map-note" data-only="en" lang="en" hidden>Map guide: follow the blue route, marked “Rute yang benar”. Go straight along Jalan Pondok Raya, turn south into Jalan Bhinneka, and Werkudara Office will be on your right. Avoid the red route via Jalan Gurameh Raya and Jalan Tengiri Raya, marked “Jangan ikuti rute ini”, which is longer.</p>
+        </figcaption>
       </figure>
       <div class="body">
-        <p>Google Maps terkadang mengarahkan perjalanan melalui Jalan Tengiri Raya, sehingga rutenya menjadi lebih jauh dan memutar.</p>
-        <p>Untuk akses yang lebih mudah, silakan mengikuti panduan pada peta yang kami sertakan.</p>
-        <a class="btn" href="https://maps.app.goo.gl/BKkDQWsgH3pFMzeA7" target="_blank" rel="noopener">BUKA GOOGLE MAPS</a>
+        <p data-i18n="gh.p1">Google Maps terkadang mengarahkan perjalanan melalui Jalan Tengiri Raya, sehingga rutenya menjadi lebih jauh dan memutar.</p>
+        <p data-i18n="gh.p2">Untuk akses yang lebih mudah, silakan mengikuti panduan pada peta yang kami sertakan.</p>
+        <a class="btn" href="https://maps.app.goo.gl/BKkDQWsgH3pFMzeA7" target="_blank" rel="noopener" data-i18n="gh.mapsBtn">BUKA GOOGLE MAPS</a>
       </div>
     </div>
   </section>
@@ -284,15 +301,15 @@ dialog.viewer[open] { display: flex; flex-direction: column; }
         <p class="sub">A Few Things to Know</p>
       </div>
       <div class="media collage bleed">
-        <img class="tall" src="assets/garden-960.webp" srcset="assets/garden-640.webp 640w, assets/garden-960.webp 960w" sizes="(min-width: 900px) 580px, 100vw" width="960" height="1285" alt="Area luar Werkudara Office dengan jalur berundak" loading="lazy" decoding="async">
-        <img class="sq" src="assets/workspace-600.webp" srcset="assets/workspace-600.webp 600w, assets/workspace-1000.webp 1000w" sizes="(min-width: 900px) 460px, 50vw" width="1000" height="693" alt="Area duduk semi-terbuka di Werkudara Office" loading="lazy" decoding="async">
-        <img class="sq" src="assets/pendopo-600.webp" srcset="assets/pendopo-600.webp 600w, assets/pendopo-1000.webp 1000w" sizes="(min-width: 900px) 460px, 50vw" width="1000" height="659" alt="Pendopo di area terbuka Werkudara Office" loading="lazy" decoding="async">
+        <img class="tall" src="assets/garden-960.webp" srcset="assets/garden-640.webp 640w, assets/garden-960.webp 960w" sizes="(min-width: 900px) 580px, 100vw" width="960" height="1285" alt="Area luar Werkudara Office dengan jalur berundak" data-i18n-attr="alt:a.gardenAlt" loading="lazy" decoding="async">
+        <img class="sq" src="assets/workspace-600.webp" srcset="assets/workspace-600.webp 600w, assets/workspace-1000.webp 1000w" sizes="(min-width: 900px) 460px, 50vw" width="1000" height="693" alt="Area duduk semi-terbuka di Werkudara Office" data-i18n-attr="alt:a.workspaceAlt" loading="lazy" decoding="async">
+        <img class="sq" src="assets/pendopo-600.webp" srcset="assets/pendopo-600.webp 600w, assets/pendopo-1000.webp 1000w" sizes="(min-width: 900px) 460px, 50vw" width="1000" height="659" alt="Pendopo di area terbuka Werkudara Office" data-i18n-attr="alt:a.pendopoAlt" loading="lazy" decoding="async">
       </div>
       <div class="body">
-        <p class="lead">Beberapa area kantor Werkudara berada di ruang terbuka.</p>
-        <p>Untuk menuju beberapa titik, Anda mungkin perlu melewati tangga atau area berundak.</p>
-        <p>Kami menyarankan menggunakan alas kaki yang nyaman agar lebih leluasa saat berkunjung.</p>
-        <p>Jika membutuhkan bantuan akses atau mobilitas, silakan menghubungi Hospitality Specialist kami.</p>
+        <p class="lead" data-i18n="wte.lead">Beberapa area kantor Werkudara berada di ruang terbuka.</p>
+        <p data-i18n="wte.p1">Untuk menuju beberapa titik, Anda mungkin perlu melewati tangga atau area berundak.</p>
+        <p data-i18n="wte.p2">Kami menyarankan menggunakan alas kaki yang nyaman agar lebih leluasa saat berkunjung.</p>
+        <p data-i18n="wte.p3">Jika membutuhkan bantuan akses atau mobilitas, silakan menghubungi Hospitality Specialist kami.</p>
       </div>
     </div>
   </section>
@@ -304,13 +321,13 @@ dialog.viewer[open] { display: flex; flex-direction: column; }
         <p class="sub">Everyone Belongs</p>
       </div>
       <div class="media bleed">
-        <img src="assets/team-1280.webp" srcset="assets/team-768.webp 768w, assets/team-1280.webp 1280w" sizes="(min-width: 1208px) 1128px, 100vw" width="1280" height="897" alt="Tim Werkudara" loading="lazy" decoding="async">
+        <img src="assets/team-1280.webp" srcset="assets/team-768.webp 768w, assets/team-1280.webp 1280w" sizes="(min-width: 1208px) 1128px, 100vw" width="1280" height="897" alt="Tim Werkudara" data-i18n-attr="alt:a.teamAlt" loading="lazy" decoding="async">
       </div>
       <div class="body">
-        <p>Di Werkudara, Anda akan bertemu dengan <span style="white-space: nowrap">rekan-rekan</span> dari berbagai latar belakang, termasuk rekan Tuli dan pengguna kursi roda.</p>
-        <p>Kami terbiasa bekerja bersama dalam lingkungan yang inklusif dan saling menghargai.</p>
-        <p>Silakan berinteraksi seperti biasa. Jika membutuhkan bantuan komunikasi, tim kami dengan senang hati akan membantu.</p>
-        <p class="closing-line">Kami percaya setiap orang memiliki peran dan nilai yang berarti.</p>
+        <p data-i18n="op.p1">Di Werkudara, Anda akan bertemu dengan <span style="white-space: nowrap">rekan-rekan</span> dari berbagai latar belakang, termasuk rekan Tuli dan pengguna kursi roda.</p>
+        <p data-i18n="op.p2">Kami terbiasa bekerja bersama dalam lingkungan yang inklusif dan saling menghargai.</p>
+        <p data-i18n="op.p3">Silakan berinteraksi seperti biasa. Jika membutuhkan bantuan komunikasi, tim kami dengan senang hati akan membantu.</p>
+        <p class="closing-line" data-i18n="op.closing">Kami percaya setiap orang memiliki peran dan nilai yang berarti.</p>
       </div>
     </div>
   </section>
@@ -322,22 +339,22 @@ dialog.viewer[open] { display: flex; flex-direction: column; }
         <p class="sub">A Little Something We’d Like to Know</p>
       </div>
       <div class="body">
-        <p class="lead">Kami ingin memastikan kunjungan Anda terasa nyaman.</p>
-        <p>Apakah ada preferensi makanan atau minuman, alergi, kebutuhan aksesibilitas, atau hal lain yang perlu kami perhatikan?</p>
-        <p>Silakan sampaikan kepada Raja, Hospitality Specialist kami, agar kami dapat mempersiapkannya dengan baik.</p>
+        <p class="lead" data-i18n="yc.lead">Kami ingin memastikan kunjungan Anda terasa nyaman.</p>
+        <p data-i18n="yc.p1">Apakah ada preferensi makanan atau minuman, alergi, kebutuhan aksesibilitas, atau hal lain yang perlu kami perhatikan?</p>
+        <p data-i18n="yc.p2">Silakan sampaikan kepada Raja, Hospitality Specialist kami, agar kami dapat mempersiapkannya dengan baik.</p>
         <form class="fb-form" id="pref-form" novalidate autocomplete="off">
           <div class="field">
-            <label for="pref-name">Nama Anda</label>
-            <input id="pref-name" name="nama" type="text" placeholder="Nama lengkap" maxlength="80" required aria-required="true" aria-describedby="pref-name-err" autocomplete="off">
-            <p class="err" id="pref-name-err" role="alert" hidden>Mohon isi nama Anda.</p>
+            <label for="pref-name" data-i18n="form.name">Nama Anda</label>
+            <input id="pref-name" name="nama" type="text" placeholder="Nama lengkap" data-i18n-attr="placeholder:ph.name" maxlength="80" required aria-required="true" aria-describedby="pref-name-err" autocomplete="off">
+            <p class="err" id="pref-name-err" role="alert" data-i18n="form.nameErr" hidden>Mohon isi nama Anda.</p>
           </div>
           <div class="field">
-            <label for="pref-text">Ada yang perlu kami perhatikan?</label>
-            <textarea id="pref-text" name="preferensi" rows="4" placeholder="Misalnya: alergi kacang, vegetarian, menghindari gula, bantuan akses tangga, atau kebutuhan lainnya." maxlength="1500" required aria-required="true" aria-describedby="pref-text-err" autocomplete="off"></textarea>
-            <p class="err" id="pref-text-err" role="alert" hidden>Mohon isi preferensi atau kebutuhan Anda.</p>
+            <label for="pref-text" data-i18n="yc.textLabel">Ada yang perlu kami perhatikan?</label>
+            <textarea id="pref-text" name="preferensi" rows="4" placeholder="Misalnya: alergi kacang, vegetarian, menghindari gula, bantuan akses tangga, atau kebutuhan lainnya." data-i18n-attr="placeholder:ph.pref" maxlength="1500" required aria-required="true" aria-describedby="pref-text-err" autocomplete="off"></textarea>
+            <p class="err" id="pref-text-err" role="alert" data-i18n="yc.textErr" hidden>Mohon isi preferensi atau kebutuhan Anda.</p>
           </div>
-          <a class="btn solid" id="pref-send" href="https://wa.me/628112831929" target="_blank" rel="noopener">Kirim ke Raja via WhatsApp</a>
-          <p class="hint">Informasi ini hanya digunakan untuk membantu mempersiapkan kunjungan Anda.</p>
+          <a class="btn solid" id="pref-send" href="https://wa.me/628112831929" target="_blank" rel="noopener" data-i18n="yc.send">Kirim ke Raja via WhatsApp</a>
+          <p class="hint" data-i18n="yc.note">Informasi ini hanya digunakan untuk membantu mempersiapkan kunjungan Anda.</p>
         </form>
       </div>
     </div>
@@ -350,8 +367,8 @@ dialog.viewer[open] { display: flex; flex-direction: column; }
         <p class="sub">We're Happy to Assist</p>
       </div>
       <div class="body">
-        <p class="lead">Ada pertanyaan sebelum berkunjung?</p>
-        <p>Jika membutuhkan petunjuk arah, bantuan akses, atau informasi lainnya, silakan menghubungi Hospitality Specialist kami.</p>
+        <p class="lead" data-i18n="hh.lead">Ada pertanyaan sebelum berkunjung?</p>
+        <p data-i18n="hh.p1">Jika membutuhkan petunjuk arah, bantuan akses, atau informasi lainnya, silakan menghubungi Hospitality Specialist kami.</p>
         <div class="contact">
           <p class="name">RAJA</p>
           <p class="role">Hospitality Specialist</p>
@@ -359,7 +376,7 @@ dialog.viewer[open] { display: flex; flex-direction: column; }
           <p class="label">WHATSAPP</p>
           <div class="tel-row">
             <p class="tel" id="wa-number">+62 811-2831-929</p>
-            <button class="text-btn" id="copy-wa" type="button" aria-live="polite">Salin nomor</button>
+            <button class="text-btn" id="copy-wa" type="button" aria-live="polite" data-i18n="hh.copy">Salin nomor</button>
           </div>
           <a class="btn" href="https://wa.me/628112831929" target="_blank" rel="noopener">CHAT WITH RAJA</a>
         </div>
@@ -382,42 +399,42 @@ dialog.viewer[open] { display: flex; flex-direction: column; }
         <p class="sub">We'd Love to Hear From You</p>
       </div>
       <div class="body">
-        <p>Setelah berkunjung, kami akan senang mendengar pengalaman dan masukan Anda.</p>
+        <p data-i18n="av.intro">Setelah berkunjung, kami akan senang mendengar pengalaman dan masukan Anda.</p>
         <details class="after-more" id="after-more">
-          <summary><span>Sudah berkunjung? Bagikan pengalaman Anda</span></summary>
+          <summary><span data-i18n="av.summary">Sudah berkunjung? Bagikan pengalaman Anda</span></summary>
           <div class="after-inner">
             <div class="thanks">
-              <p class="lead">Terima kasih sudah berkunjung ke Werkudara.</p>
-              <p>Kami berharap kunjungan Anda menyenangkan dan berkesan.</p>
-              <p>Kami senang mendengar pengalaman Anda, termasuk hal-hal yang sudah baik maupun yang masih bisa kami perbaiki.</p>
+              <p class="lead" data-i18n="av.thanks">Terima kasih sudah berkunjung ke Werkudara.</p>
+              <p data-i18n="av.hope">Kami berharap kunjungan Anda menyenangkan dan berkesan.</p>
+              <p data-i18n="av.hear">Kami senang mendengar pengalaman Anda, termasuk hal-hal yang sudah baik maupun yang masih bisa kami perbaiki.</p>
             </div>
 
             <div class="option" id="private-feedback">
               <p class="label">PRIVATE FEEDBACK</p>
               <h3>Share Your Feedback</h3>
-              <p>Ada pengalaman, kesan, atau saran yang ingin disampaikan? Kami akan senang mendengarnya.</p>
+              <p data-i18n="av.fbIntro">Ada pengalaman, kesan, atau saran yang ingin disampaikan? Kami akan senang mendengarnya.</p>
               <form class="fb-form" id="fb-form" novalidate autocomplete="off">
                 <div class="field">
-                  <label for="fb-name">Nama Anda</label>
-                  <input id="fb-name" name="nama" type="text" placeholder="Nama lengkap" maxlength="80" required aria-required="true" aria-describedby="fb-name-err" autocomplete="off">
-                  <p class="err" id="fb-name-err" role="alert" hidden>Mohon isi nama Anda.</p>
+                  <label for="fb-name" data-i18n="form.name">Nama Anda</label>
+                  <input id="fb-name" name="nama" type="text" placeholder="Nama lengkap" data-i18n-attr="placeholder:ph.name" maxlength="80" required aria-required="true" aria-describedby="fb-name-err" autocomplete="off">
+                  <p class="err" id="fb-name-err" role="alert" data-i18n="form.nameErr" hidden>Mohon isi nama Anda.</p>
                 </div>
                 <div class="field">
-                  <label for="fb-text">Cerita atau masukan Anda</label>
-                  <textarea id="fb-text" name="masukan" rows="4" placeholder="Bagaimana pengalaman Anda selama berkunjung?" maxlength="1500" required aria-required="true" aria-describedby="fb-text-err" autocomplete="off"></textarea>
-                  <p class="err" id="fb-text-err" role="alert" hidden>Mohon isi cerita atau masukan Anda.</p>
+                  <label for="fb-text" data-i18n="av.textLabel">Cerita atau masukan Anda</label>
+                  <textarea id="fb-text" name="masukan" rows="4" placeholder="Bagaimana pengalaman Anda selama berkunjung?" data-i18n-attr="placeholder:ph.fb" maxlength="1500" required aria-required="true" aria-describedby="fb-text-err" autocomplete="off"></textarea>
+                  <p class="err" id="fb-text-err" role="alert" data-i18n="av.textErr" hidden>Mohon isi cerita atau masukan Anda.</p>
                 </div>
-                <a class="btn solid" id="fb-send" href="https://wa.me/628112831929" target="_blank" rel="noopener">Kirim Feedback ke Raja</a>
-                <p class="hint">WhatsApp akan terbuka dengan pesan yang sudah terisi. Pesan baru terkirim setelah Anda menekan kirim.</p>
+                <a class="btn solid" id="fb-send" href="https://wa.me/628112831929" target="_blank" rel="noopener" data-i18n="av.send">Kirim Feedback ke Raja</a>
+                <p class="hint" data-i18n="av.hint">WhatsApp akan terbuka dengan pesan yang sudah terisi. Pesan baru terkirim setelah Anda menekan kirim.</p>
               </form>
             </div>
 
             <div class="option" id="google-review">
               <p class="label">GOOGLE REVIEW</p>
               <h3>Share Your Experience on Google</h3>
-              <p>Jika berkenan, Anda juga dapat membagikan pengalaman berkunjung ke Werkudara melalui Google Review. Cerita Anda sangat berarti bagi kami.</p>
+              <p data-i18n="av.reviewIntro">Jika berkenan, Anda juga dapat membagikan pengalaman berkunjung ke Werkudara melalui Google Review. Cerita Anda sangat berarti bagi kami.</p>
               <a class="btn" id="review-link" href="https://search.google.com/local/writereview?placeid=ChIJVQvGxVxXei4RaBRHhIgSfoU" target="_blank" rel="noopener" data-review-url="https://search.google.com/local/writereview?placeid=ChIJVQvGxVxXei4RaBRHhIgSfoU">Write a Google Review</a>
-              <p class="hint" id="review-note" hidden>Tautan Google Review belum diisi.</p>
+              <p class="hint" id="review-note" data-i18n="av.reviewNote" hidden>Tautan Google Review belum diisi.</p>
             </div>
           </div>
         </details>
@@ -429,7 +446,7 @@ dialog.viewer[open] { display: flex; flex-direction: column; }
 <dialog class="viewer" id="map-viewer" aria-labelledby="viewer-title">
   <div class="viewer-bar">
     <p class="label" id="viewer-title">PETA AKSES</p>
-    <button class="text-btn" id="map-close" type="button">Tutup</button>
+    <button class="text-btn" id="map-close" type="button" data-i18n="viewer.close">Tutup</button>
   </div>
   <div class="viewer-scroll" id="viewer-scroll">
     <img id="viewer-img" data-src="assets/map-1601.webp" width="1601" height="982" alt="Peta rute menuju Werkudara Office, ukuran penuh">
@@ -439,6 +456,7 @@ dialog.viewer[open] { display: flex; flex-direction: column; }
 
 <script>
 (function () {
+  function T(key, idText) { return window.WK ? window.WK.t(key, idText) : idText; }
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var bar = document.getElementById('bar');
   var menuBtn = document.getElementById('menu-btn');
@@ -447,7 +465,7 @@ dialog.viewer[open] { display: flex; flex-direction: column; }
   function setMenu(open) {
     bar.classList.toggle('open', open);
     menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    menuBtn.textContent = open ? 'TUTUP' : 'MENU';
+    menuBtn.textContent = open ? T('menu.close', 'TUTUP') : 'MENU';
   }
   menuBtn.addEventListener('click', function () { setMenu(!bar.classList.contains('open')); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
@@ -491,17 +509,24 @@ dialog.viewer[open] { display: flex; flex-direction: column; }
   var viewerTitle = document.getElementById('viewer-title');
   var viewerHint = document.querySelector('#map-viewer .viewer-hint');
   var views = {
-    map: { src: 'assets/map-1601.webp', w: 1601, h: 982, focus: 0.29, title: 'PETA AKSES', hint: 'Geser untuk melihat seluruh peta.', alt: 'Peta rute menuju Werkudara Office, ukuran penuh' },
-    turn: { src: 'assets/turn-1400.webp', w: 1400, h: 846, focus: 0.62, title: 'FOTO BELOKAN', hint: 'Geser untuk melihat seluruh foto.', alt: 'Belokan dari Jl. Pondok Raya ke Jl. Bhinneka, ukuran penuh' }
+    map: { src: 'assets/map-1601.webp', w: 1601, h: 982, focus: 0.29, key: 'view.map', title: 'PETA AKSES', hint: 'Geser untuk melihat seluruh peta.', alt: 'Peta rute menuju Werkudara Office, ukuran penuh' },
+    turn: { src: 'assets/turn-1400.webp', w: 1400, h: 846, focus: 0.62, key: 'view.turn', title: 'FOTO BELOKAN', hint: 'Geser untuk melihat seluruh foto.', alt: 'Belokan dari Jl. Pondok Raya ke Jl. Bhinneka, ukuran penuh' }
   };
+  var currentView = 'map';
+  function labelView() {
+    var v = views[currentView];
+    viewerImg.setAttribute('alt', T(v.key + '.alt', v.alt));
+    viewerTitle.textContent = T(v.key + '.title', v.title);
+    viewerHint.textContent = T(v.key + '.hint', v.hint);
+  }
   function openView(kind) {
     var v = views[kind];
+    currentView = kind;
     if (viewerImg.getAttribute('src') !== v.src) {
       viewerImg.setAttribute('width', v.w); viewerImg.setAttribute('height', v.h);
-      viewerImg.setAttribute('alt', v.alt); viewerImg.setAttribute('src', v.src);
+      viewerImg.setAttribute('src', v.src);
     }
-    viewerTitle.textContent = v.title;
-    viewerHint.textContent = v.hint;
+    labelView();
     if (typeof viewer.showModal === 'function') viewer.showModal(); else viewer.setAttribute('open', '');
     // Start on the point of interest rather than the top-left corner.
     viewerScroll.scrollLeft = Math.max(0, viewerImg.clientWidth * v.focus - viewerScroll.clientWidth / 2);
@@ -523,13 +548,20 @@ dialog.viewer[open] { display: flex; flex-direction: column; }
   function say(text) {
     copyBtn.textContent = text;
     clearTimeout(resetTimer);
-    resetTimer = setTimeout(function () { copyBtn.textContent = 'Salin nomor'; }, 2400);
+    resetTimer = setTimeout(function () { copyBtn.textContent = T('hh.copy', 'Salin nomor'); }, 2400);
   }
   copyBtn.addEventListener('click', function () {
     var value = '+628112831929';
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(value).then(function () { say('Nomor disalin'); }, function () { selectNumber(); say('Nomor dipilih, salin manual'); });
-    } else { selectNumber(); say('Nomor dipilih, salin manual'); }
+      navigator.clipboard.writeText(value).then(function () { say(T('copy.done', 'Nomor disalin')); }, function () { selectNumber(); say(T('copy.manual', 'Nomor dipilih, salin manual')); });
+    } else { selectNumber(); say(T('copy.manual', 'Nomor dipilih, salin manual')); }
+  });
+
+  // Texts set from script follow the language switch.
+  document.addEventListener('wk:lang', function () {
+    clearTimeout(resetTimer);
+    menuBtn.textContent = bar.classList.contains('open') ? T('menu.close', 'TUTUP') : 'MENU';
+    labelView();
   });
 
   // Honour a section link such as …#getting-here.
@@ -554,6 +586,12 @@ dialog.viewer[open] { display: flex; flex-direction: column; }
   ];
 
   function message() {
+    if (window.WK && window.WK.lang() === 'en') {
+      return 'Hello Raja, my name is ' + nameEl.value.trim() + '.\n\n' +
+        'I would like to share some feedback about my visit to Werkudara:\n\n' +
+        textEl.value.trim() + '\n\n' +
+        'Thank you.';
+    }
     return 'Halo Raja, saya ' + nameEl.value.trim() + '.\n\n' +
       'Saya ingin berbagi feedback mengenai kunjungan saya ke Werkudara:\n\n' +
       textEl.value.trim() + '\n\n' +
@@ -591,6 +629,8 @@ dialog.viewer[open] { display: flex; flex-direction: column; }
     if (validate()) { refresh(); send.click(); }
   });
 
+  document.addEventListener('wk:lang', refresh);
+
   // Google Review: stays a marked placeholder until a real review link is supplied in data-review-url.
   var review = document.getElementById('review-link');
   var note = document.getElementById('review-note');
@@ -624,6 +664,12 @@ dialog.viewer[open] { display: flex; flex-direction: column; }
   ];
 
   function message() {
+    if (window.WK && window.WK.lang() === 'en') {
+      return 'Hello Raja, my name is ' + nameEl.value.trim() + '.\n\n' +
+        'Ahead of my visit to Werkudara, I would like to share the following preferences or special requirements:\n\n' +
+        textEl.value.trim() + '\n\n' +
+        'Thank you.';
+    }
     return 'Halo Raja, saya ' + nameEl.value.trim() + '.\n\n' +
       'Untuk kunjungan saya ke Werkudara, berikut preferensi atau kebutuhan yang ingin saya sampaikan:\n\n' +
       textEl.value.trim() + '\n\n' +
@@ -660,6 +706,148 @@ dialog.viewer[open] { display: flex; flex-direction: column; }
     e.preventDefault();
     if (validate()) { refresh(); send.click(); }
   });
+  document.addEventListener('wk:lang', refresh);
+})();
+</script>
+
+<script>
+// Two languages on one page. Bahasa Indonesia lives in the markup (the default); English lives in the
+// dictionary below, keyed by data-i18n (element text) and data-i18n-attr (attribute:key pairs).
+// Only the language choice is remembered (localStorage "wk-lang"); nothing a guest types is stored.
+(function () {
+  var EN = {
+    // Header
+    'a.brand': 'Back to the top of the page',
+    'a.nav': 'Guide sections',
+    'a.langGroup': 'Choose language',
+    'menu.close': 'CLOSE',
+
+    // Welcome
+    'a.heroAlt': 'The front of Werkudara Office',
+    'welcome.p1': 'We are delighted to be welcoming you.',
+    'welcome.p2': 'We have put together this short guide to help you find us, get a feel for the office, and prepare comfortably for your visit.',
+    'welcome.date': 'Monday, 12 October 2026',
+    'welcome.time': '7:30 AM local time (WIB)',
+
+    // Getting Here
+    'gh.routeLabel': 'RECOMMENDED ROUTE',
+    'a.turnBtn': 'Enlarge the photo of the turn',
+    'a.turnAlt': 'The turn from Jl. Pondok Raya into Jl. Bhinneka towards Werkudara Office, with Warmindo Harum on the left side of the road',
+    'gh.turnBtn': 'Enlarge photo',
+    'a.mapBtn': 'Enlarge the route map',
+    'a.mapAlt': 'Route map to Werkudara Office: go straight along Jl. Pondok Raya, then turn into Jl. Bhinneka. The route via Jl. Gurameh Raya and Jl. Tengiri Raya is not recommended.',
+    'gh.mapBtn': 'Enlarge map',
+    'gh.p1': 'Google Maps sometimes directs you via Jalan Tengiri Raya, which makes the journey longer and more roundabout.',
+    'gh.p2': 'For an easier arrival, please follow the route shown on the map we have provided.',
+    'gh.mapsBtn': 'OPEN GOOGLE MAPS',
+    'view.map.title': 'ROUTE MAP',
+    'view.map.hint': 'Swipe to see the whole map.',
+    'view.map.alt': 'Route map to Werkudara Office, full size',
+    'view.turn.title': 'PHOTO OF THE TURN',
+    'view.turn.hint': 'Swipe to see the whole photo.',
+    'view.turn.alt': 'The turn from Jl. Pondok Raya into Jl. Bhinneka, full size',
+    'viewer.close': 'Close',
+
+    // What to Expect
+    'a.gardenAlt': 'Outdoor area at Werkudara Office with a stepped path',
+    'a.workspaceAlt': 'Semi-open seating area at Werkudara Office',
+    'a.pendopoAlt': 'An open-air pavilion (pendopo) in the grounds of Werkudara Office',
+    'wte.lead': 'Some areas of the Werkudara office are open-air.',
+    'wte.p1': 'To reach certain spots, you may need to use stairs or stepped paths.',
+    'wte.p2': 'We suggest wearing comfortable footwear so you can move around with ease during your visit.',
+    'wte.p3': 'If you need any assistance with access or mobility, please contact our Hospitality Specialist.',
+
+    // Our People
+    'a.teamAlt': 'The Werkudara team',
+    'op.p1': 'At Werkudara, you will meet colleagues from many different backgrounds, including Deaf colleagues and colleagues who use wheelchairs.',
+    'op.p2': 'We are used to working together in an inclusive environment built on mutual respect.',
+    'op.p3': 'Please feel free to interact as you normally would. If you need any help communicating, our team will be happy to assist.',
+    'op.closing': 'We believe every person has a meaningful role and value to offer.',
+
+    // Your Comfort Matters
+    'yc.lead': 'We would like to make sure your visit is a comfortable one.',
+    'yc.p1': 'Do you have any food or drink preferences, allergies, accessibility needs, or anything else we should keep in mind?',
+    'yc.p2': 'Please let Raja, our Hospitality Specialist, know so that we can prepare accordingly.',
+    'form.name': 'Your name',
+    'ph.name': 'Full name',
+    'form.nameErr': 'Please enter your name.',
+    'yc.textLabel': 'Is there anything we should know?',
+    'ph.pref': 'For example: nut allergy, vegetarian, avoiding sugar, help with stairs, or any other needs.',
+    'yc.textErr': 'Please tell us your preferences or needs.',
+    'yc.send': 'Send to Raja via WhatsApp',
+    'yc.note': 'This information is used only to help us prepare for your visit.',
+
+    // Here to Help
+    'hh.lead': 'Any questions before your visit?',
+    'hh.p1': 'If you need directions, help with access, or any other information, please contact our Hospitality Specialist.',
+    'hh.copy': 'Copy number',
+    'copy.done': 'Number copied',
+    'copy.manual': 'Number selected. Please copy it manually',
+
+    // After Your Visit
+    'av.intro': 'After your visit, we would love to hear about your experience and any feedback you may have.',
+    'av.summary': 'Already visited? Share your experience',
+    'av.thanks': 'Thank you for visiting Werkudara.',
+    'av.hope': 'We hope your visit was enjoyable and memorable.',
+    'av.hear': 'We would love to hear about your experience, including what went well and what we could do better.',
+    'av.fbIntro': 'Is there an experience, impression, or suggestion you would like to share? We would be glad to hear it.',
+    'av.textLabel': 'Your story or feedback',
+    'ph.fb': 'How was your experience during your visit?',
+    'av.textErr': 'Please share your story or feedback.',
+    'av.send': 'Send Feedback to Raja',
+    'av.hint': 'WhatsApp will open with your message already filled in. It is only sent once you press Send.',
+    'av.reviewIntro': 'If you wish, you are also welcome to share your experience of visiting Werkudara in a Google Review. Your story means a great deal to us.',
+    'av.reviewNote': 'The Google Review link has not been added yet.'
+  };
+
+  var STORE = 'wk-lang';
+  var lang = 'id';
+  var slice = Array.prototype.slice;
+
+  var textNodes = slice.call(document.querySelectorAll('[data-i18n]')).map(function (el) {
+    return { el: el, key: el.getAttribute('data-i18n'), id: el.innerHTML };
+  });
+  var attrNodes = [];
+  slice.call(document.querySelectorAll('[data-i18n-attr]')).forEach(function (el) {
+    el.getAttribute('data-i18n-attr').split(';').forEach(function (pair) {
+      var parts = pair.split(':');
+      attrNodes.push({ el: el, attr: parts[0], key: parts[1], id: el.getAttribute(parts[0]) });
+    });
+  });
+  var onlyNodes = slice.call(document.querySelectorAll('[data-only]'));
+  var buttons = slice.call(document.querySelectorAll('.lang-btn'));
+
+  function t(key, idText) { return lang === 'en' && EN.hasOwnProperty(key) ? EN[key] : idText; }
+
+  function apply() {
+    document.documentElement.setAttribute('lang', lang);
+    textNodes.forEach(function (n) {
+      if (lang === 'en' && EN.hasOwnProperty(n.key)) n.el.textContent = EN[n.key]; else n.el.innerHTML = n.id;
+    });
+    attrNodes.forEach(function (n) { n.el.setAttribute(n.attr, t(n.key, n.id)); });
+    onlyNodes.forEach(function (el) { el.hidden = el.getAttribute('data-only') !== lang; });
+    buttons.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-lang') === lang ? 'true' : 'false'); });
+    var ev;
+    try { ev = new CustomEvent('wk:lang', { detail: lang }); } catch (err) { ev = document.createEvent('Event'); ev.initEvent('wk:lang', false, false); }
+    document.dispatchEvent(ev);
+  }
+
+  window.WK = { t: t, lang: function () { return lang; } };
+
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var next = b.getAttribute('data-lang');
+      if (next !== 'id' && next !== 'en') return;
+      lang = next;
+      try { localStorage.setItem(STORE, lang); } catch (err) {}
+      apply();
+    });
+  });
+
+  var saved = null;
+  try { saved = localStorage.getItem(STORE); } catch (err) {}
+  if (saved === 'en') lang = 'en';
+  apply();
 })();
 </script>
 
